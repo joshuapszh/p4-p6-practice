@@ -1,0 +1,8 @@
+.diagram{margin:18px 0;padding:16px;border:1px solid #cbd9e9;border-radius:12px;background:#f8fbff;overflow:auto}
+.diagram figcaption{font-weight:700;margin-bottom:10px;color:#173861}
+.diagram svg{display:block;width:100%;min-width:520px;height:auto}
+.diagram svg rect,.diagram svg ellipse,.diagram svg polygon:not(marker polygon){fill:#fff;stroke:#24547f;stroke-width:2}
+.diagram svg text{font:700 16px system-ui,sans-serif;fill:#173861;text-anchor:middle;dominant-baseline:middle}
+.diagram svg .flow-label{font-size:15px;fill:#1c538d}
+.diagram svg .flow-line{fill:none;stroke:#24547f;stroke-width:2.5}
+@media print{.diagram{break-inside:avoid}.diagram svg{min-width:0}}
