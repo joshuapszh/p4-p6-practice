@@ -40,15 +40,15 @@
   }
   function renderHome(){
     view="home";paper=null;attempt=null;
-    app.innerHTML=`<div class="stack"><div><h1>Choose your year group</h1><p class="muted">Three original, untimed 100-mark sets for each level. Your work stays on this device until you submit a report through Google Classroom.</p></div><div class="grid three">${["P4","P5","P6"].map(g=>`<button class="tile" data-action="level" data-level="${g}"><strong>Primary ${g.slice(1)}</strong><span>Three full practice sets · no time limit</span></button>`).join("")}</div><div class="card"><h2>How practice works</h2><p>Multiple-choice questions show the answer immediately. For written questions, check your first answer, read a hint, try once more, and then compare with the model answer. The practice mark uses your first answer.</p><p class="muted">When you finish, print or save the short report as a PDF and submit it in Google Classroom. Repeat a set whenever you want.</p></div></div>`;
+    app.innerHTML=`<div class="stack"><div><h1>Choose your year group</h1><p class="muted">Four untimed 100-mark practice sets for each level. Your work stays on this device until you submit a report through Google Classroom.</p></div><div class="grid three">${["P4","P5","P6"].map(g=>`<button class="tile" data-action="level" data-level="${g}"><strong>Primary ${g.slice(1)}</strong><span>Four full practice sets · no time limit</span></button>`).join("")}</div><div class="card"><h2>How practice works</h2><p>Multiple-choice questions show the answer immediately. For written questions, check your first answer, read a hint, try once more, and then compare with the model answer. The practice mark uses your first answer.</p><p class="muted">When you finish, print or save the short report as a PDF and submit it in Google Classroom. Repeat a set whenever you want.</p></div></div>`;
   }
   function renderLevel(g){
     level=g;view="level";attempt=null;paper=null;
     app.innerHTML=`<div class="row between"><div><p class="muted">Digital Literacy practice</p><h1>Primary ${g.slice(1)} sets</h1><p class="muted">Each set: Section A 20 marks · Section B 35 marks · Section C 45 marks.</p></div><button class="btn plain" data-action="home">Change level</button></div>
-      <div class="grid three">${[1,2,3].map(n=>`<div class="card"><h2>Set ${n}</h2><p class="muted">Original questions at a similar level of difficulty. Work at your own pace.</p><button class="btn" data-action="prepare" data-set="${n}">Open Set ${n}</button></div>`).join("")}</div>`;
+      <div class="grid three">${[1,2,3,4].map(n=>`<div class="card"><h2>Set ${n}</h2><p class="muted">${n===4?"Application Booster: reasoning questions. Teacher review required for written answers.":"Original questions at a similar level of difficulty. Work at your own pace."}</p><button class="btn" data-action="prepare" data-set="${n}">Open Set ${n}</button></div>`).join("")}</div>`;
   }
   function renderPrepare(set){
-    paper=PRACTICE_BANK.makePaper(level,Number(set));view="prepare";
+    paper=Number(set)===4?SET4_BANK.makePaper(level):PRACTICE_BANK.makePaper(level,Number(set));view="prepare";
     app.innerHTML=`<div class="row between"><div><p class="muted">Primary ${level.slice(1)} · Set ${set}</p><h1>Start or resume practice</h1></div><button class="btn plain" data-action="level" data-level="${level}">Back to sets</button></div>
       <div class="grid two"><div class="card"><h2>New attempt</h2><p class="muted">Enter the same name and class you will use on your Classroom report.</p>
       <form id="start-form"><div class="field"><label for="student-name">Student name</label><input id="student-name" maxlength="80" autocomplete="name" required></div>
@@ -71,7 +71,7 @@
   }
   function resume(id){
     attempt=state.attempts.find(a=>a.id===id);if(!attempt)return;
-    level=attempt.level;paper=PRACTICE_BANK.makePaper(level,attempt.set);
+    level=attempt.level;paper=attempt.set===4?SET4_BANK.makePaper(level):PRACTICE_BANK.makePaper(level,attempt.set);
     if(attempt.finished)renderResult();else{qIndex=paper.questions.findIndex(q=>!ready(q));if(qIndex<0)qIndex=0;renderPractice()}
   }
   function renderPractice(){

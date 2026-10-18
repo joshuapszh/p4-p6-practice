@@ -27,3 +27,16 @@ This folder contains a draft for teacher review. It has three untimed, 100-mark 
 4. Post that Pages link in Google Classroom. Create an assignment where students attach their PDF reports.
 
 GitHub Pages serves the app files, but it does not collect attempts. Student names, answers, and scores remain in that browser until the student submits a report through Google Classroom. Anyone who knows the public link can view the practice questions and marking rules.
+
+## Set 4: Application Booster
+
+P4, P5 and P6 now each have an additional 100-mark application-focused paper. Sets 1–3 and their generator are unchanged. New questions are defined in `set4-data.js` and adapted for the existing quiz interface in `set4-bank.js`. Run `node test-set4.js` to verify all four sets at each level.
+
+**Important:** Set 4 written responses receive only provisional keyword-based marks. Teacher checking is necessary, especially for reasoning, calculations and valid alternative wording. No confidential exam questions or marking schemes are added.
+
+### Set 4 verification (2026-10-18)
+
+- `node test-set4.js`: all 12 papers (P4/P5/P6 x Sets 1–4) passed question/mark structural checks.
+- Headless Chromium smoke tests: Set 4 selection, MCQ feedback, written-response check, model reveal, save/resume passed for all levels.
+- Full headless Chromium runs: completed all 44 questions, finished and opened student report for P4, P5 and P6.
+- Set 4 written marks are **provisional** because the keyword checker does not grade reasoning or valid paraphrases reliably. Teachers should review these reports before interpreting total marks. These tests do not constitute a subject-matter moderation of every answer or verified final TOS alignment.
