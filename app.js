@@ -84,6 +84,14 @@
       <section class="card"><div class="row between"><div><span class="tag">Section ${q.section}</span> <span class="tag">Question ${q.number}</span></div><strong>${q.marks} ${q.marks===1?"mark":"marks"}</strong></div><p class="muted small" style="margin-top:10px">${esc(q.topic)}</p><h2 style="margin-top:12px">${q.section==="A"?"Choose one answer":q.section==="B"?"Short answers":"Application and scenarios"}</h2>${q.visual?renderVisual(q.visual):""}${body}<div class="row between" style="margin-top:26px"><button class="btn alt" data-action="prev" ${qIndex===0?"disabled":""}>Previous</button><button class="btn alt" data-action="next" ${qIndex===paper.questions.length-1?"disabled":""}>Next</button></div></section></div>`;
   }
   function renderVisual(v){
+    if(v.type==="scratch"){
+      const colors={event:"#d99b22",variable:"#e88b19",control:"#d49a14",looks:"#9966cc",motion:"#4c97ff"};
+      function block(b,depth=0){
+        const one='<div style="margin:5px 0 5px '+(depth*20)+'px;padding:9px 12px;border-radius:9px;background:'+(colors[b.kind]||"#777")+';color:white;max-width:460px;font-weight:600">'+esc(b.text)+'</div>';
+        return one+(b.nested||[]).map(z=>block(z,depth+1)).join("")+(b.else?'<div style="margin-left:'+(depth*20)+'px;font-weight:600">else</div>'+b.else.map(z=>block(z,depth+1)).join(""):"");
+      }
+      return '<figure class="diagram"><figcaption>'+esc(v.title)+' — Scratch-style block sequence</figcaption><div role="img" aria-label="'+esc(v.blocks.map(b=>b.text).join(", "))+'" style="padding:12px;text-align:left">'+v.blocks.map(b=>block(b)).join("")+'</div></figure>';
+    }
     if(v.type!=="flowchart")return "";
     return `<figure class="diagram"><figcaption>${esc(v.title)} flowchart</figcaption><svg viewBox="0 0 720 500" role="img" aria-label="Flowchart for ${esc(v.title)}. Start, input ${esc(v.input)}, decision ${esc(v.test)}. Yes leads to ${esc(v.yesAction)} and ${esc(v.yesOutput)}. No leads to ${esc(v.noOutput)}. Both branches end."><defs><marker id="arrowhead" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#24547f"/></marker></defs>
       <g class="flow-line" marker-end="url(#arrowhead)"><path d="M250 58 V74"/><path d="M250 126 V153"/><path d="M250 256 V283"/><path d="M250 341 V364"/><path d="M250 416 V435"/><path d="M356 205 H545 V278"/><path d="M545 342 V460 H312"/></g>
